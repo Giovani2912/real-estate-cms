@@ -1,4 +1,4 @@
-import { PROPERTY_CATEGORIES, PROPERTY_STATUS } from "../../config";
+import { PROPERTY_CATEGORIES, PROPERTY_MODALITY, PROPERTY_STATUS } from "../../config";
 import { CollectionConfig } from "payload/types";
 
 export const Imoveis: CollectionConfig = {
@@ -9,15 +9,33 @@ export const Imoveis: CollectionConfig = {
     access: {},
     fields: [
         {
+            name: "title",
+            label: "Título",
+            type: "text",
+            required: true,
+        },
+        {
             name: "cep",
             label: "CEP",
             type: "text",
             required: true,
         },
         {
-            name: "title",
-            label: "Título",
+            name: "neighborhood",
+            label: "Bairro",
             type: "text",
+            required: true,
+        },
+        {
+            name: "street",
+            label: "Rua",
+            type: "text",
+            required: true,
+        },
+        {
+            name: 'number',
+            label: 'Número',
+            type: 'number',
             required: true,
         },
         {
@@ -47,6 +65,15 @@ export const Imoveis: CollectionConfig = {
             label: 'Status',
             type: 'select',
             options: PROPERTY_STATUS.map(
+                ({ label, value }) => ({ label, value })
+            ),
+            required: true,
+        },
+        {
+            name: 'modality',
+            label: 'Modalidade',
+            type: 'select',
+            options: PROPERTY_MODALITY.map(
                 ({ label, value }) => ({ label, value })
             ),
             required: true,
@@ -82,6 +109,22 @@ export const Imoveis: CollectionConfig = {
         {
             name: 'bathrooms',
             label: 'Banheiros',
+            min: 0,
+            max: 100000000,
+            type: 'number',
+            required: true,
+        },
+        {
+            name: 'suites',
+            label: 'Suítes',
+            min: 0,
+            max: 100000000,
+            type: 'number',
+            required: true,
+        },
+        {
+            name: 'parkcar',
+            label: 'Vagas de garagem',
             min: 0,
             max: 100000000,
             type: 'number',

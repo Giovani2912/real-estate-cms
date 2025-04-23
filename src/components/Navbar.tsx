@@ -1,11 +1,62 @@
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
-import { cookies } from "next/headers";
-import Image from "next/image";
 import MenuSidebar from "./MenuSidebar";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
 
 const Navbar = async () => {
-  const nextCookies = cookies();
+
+  const status = [
+    {
+      title: "Lançamentos",
+      href: "/lancamentos",
+    },
+    {
+      title: "Prontos para morar",
+      href: "/prontos",
+    },
+    {
+      title: "Imóvel na planta",
+      href: "/imovel-planta",
+    },
+  ]
+
+  const categories = [
+    {
+      title: "Apartamentos",
+      href: "/apartamentos",
+    },
+    {
+      title: "Casas",
+      href: "/casas",
+    },
+    {
+      title: "Casas em condomínio",
+      href: "/casas-condominio",
+    },
+    {
+      title: "Terenos",
+      href: "/terrenos",
+    },
+    {
+      title: "Duplex",
+      href: "/duplex",
+    },
+    {
+      title: "Studios",
+      href: "/studios",
+    },
+    {
+      title: "Chácaras",
+      href: "/chacaras",
+    },
+  ]
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 lg:mx-6">
@@ -31,25 +82,65 @@ const Navbar = async () => {
             </div>
 
             <div className="hidden z-50 lg:ml-8 lg:flex lg:items-center">
-              <Link
-                href="/lancamentos"
-                className={buttonVariants({ variant: "ghost" })}
-              >
-                Lançamentos
-              </Link>
+            <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                          <NavigationMenuTrigger>Status</NavigationMenuTrigger>
+                          <NavigationMenuContent>
+                          <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px] ">
+                              {status.map((statu) => (
+                                <NavigationMenuLink key={statu.title}>
+                                  <Link
+                                    href={statu.href}
+                                    className={buttonVariants({ variant: "ghost" })}
+                                  >
+                                    {statu.title}
+                                  </Link>
+                                </NavigationMenuLink>
+                              ))}
+                            </ul>
+                          </NavigationMenuContent>
+                        </NavigationMenuItem>
+                  </NavigationMenuList>
+              </NavigationMenu>
               <span className="h-6 w-px mx-2 bg-gray-200" />
-              <Link
-                href="/prontos-para-morar"
-                className={buttonVariants({ variant: "ghost" })}
-              >
-                Prontos para morar
-              </Link>
+
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                          <NavigationMenuTrigger>Categorias de imóveis</NavigationMenuTrigger>
+                          <NavigationMenuContent>
+                            <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-2 lg:w-[400px] ">
+                              {categories.map((category) => (
+                                <NavigationMenuLink key={category.title}>
+                                  <Link
+                                    href={category.href}
+                                    className={buttonVariants({ variant: "ghost" })}
+                                  >
+                                    {category.title}
+                                  </Link>
+                                </NavigationMenuLink>
+                              ))}
+                            </ul>
+                          </NavigationMenuContent>
+                        </NavigationMenuItem>
+                  </NavigationMenuList>
+              </NavigationMenu>
+
               <span className="h-6 w-px mx-2 bg-gray-200" />
               <Link
                 href="/locacao"
                 className={buttonVariants({ variant: "ghost" })}
               >
                 Locação
+              </Link>
+
+              <span className="h-6 w-px mx-2 bg-gray-200" />
+              <Link
+                href="/buscar"
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                Buscar um imóvel
               </Link>
             </div>
 

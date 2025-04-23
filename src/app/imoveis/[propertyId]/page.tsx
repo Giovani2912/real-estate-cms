@@ -6,8 +6,9 @@ import PropertyReel from '@/components/PropertyReel'
 import { buttonVariants } from '@/components/ui/button'
 import { PROPERTY_CATEGORIES } from '@/config'
 import { getPayloadClient } from '@/get-payload'
-import { formatPrice } from '@/lib/utils'
-import { Check, Shield } from 'lucide-react'
+import { formatCurrency } from '@/lib/formatCurrency'
+import { Imovei } from '@/payload-types'
+import { BathIcon, Bed, Car, Check, MapPin, ShowerHeadIcon } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -37,7 +38,8 @@ const Page = async ({ params }: PageProps) => {
     },
   })
 
-  const [property] = imoveis
+  //@ts-ignore
+  const [property]: Imovei | any = imoveis
 
   if (!property) return notFound()
 
@@ -89,7 +91,7 @@ const Page = async ({ params }: PageProps) => {
             <section className='mt-4'>
               <div className='flex items-center'>
                 <p className='font-medium text-gray-900'>
-                  {formatPrice(property.price)}
+                  {formatCurrency(property.price)}
                 </p>
 
                 <div className='ml-4 border-l text-muted-foreground border-gray-300 pl-4'>
@@ -106,11 +108,21 @@ const Page = async ({ params }: PageProps) => {
               <div className='mt-6 flex items-center'>
                 <Check
                   aria-hidden='true'
-                  className='h-5 w-5 flex-shrink-0 text-green-500'
+                  className='h-7 w-7 flex-shrink-0 text-red-500'
                 />
                 <p className='ml-2 text-sm text-muted-foreground'>
                   Cadastrado por 
                   <Link href='/' className={buttonVariants({variant: 'link'})}>Valdir Foltran</Link>
+                </p>
+              </div>
+
+              <div className='mt-6 flex items-center'>
+                <MapPin
+                  aria-hidden='true'
+                  className='h-7 w-7 flex-shrink-0 text-red-500' 
+                />     
+                <p className='ml-2 text-sm text-muted-foreground'>
+                  {property.street}, {property.number} - {property.neighborhood}  
                 </p>
               </div>
             </section>
@@ -120,6 +132,26 @@ const Page = async ({ params }: PageProps) => {
           <div className='mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center'>
             <div className='aspect-square rounded-lg'>
               <ImageSlider urls={validUrls} />
+            </div>
+            <div className='flex flex-col gap-4 mt-4'>
+            <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-4 md:space-y-2 w-fit">
+              <li className="w-fit">
+                <BathIcon className="h-5 w-5 text-red-600 inline mr-1.5" />
+                {property.bathrooms} banheiros
+              </li>
+              <li className="w-fit">
+                <Bed className="h-5 w-5 text-red-600 inline mr-1.5" />
+                {property.bedrooms} quartos
+              </li>
+              <li className="w-fit">
+                <Car className="h-5 w-5 text-red-600 inline mr-1.5" />
+                {} vagas de garagem
+              </li>
+              <li className="w-fit">
+                <ShowerHeadIcon className="h-5 w-5 text-red-600 inline mr-1.5" />
+                {} suítes
+              </li>
+            </ul>
             </div>
           </div>
 
@@ -148,7 +180,7 @@ const Page = async ({ params }: PageProps) => {
       <PropertyReel
         href={`/imoveis/${property.category}`}
         query={{ category: property.category, limit: 4 }}
-        title={`Semelhantes a ${label}`}
+        title={`Mais ${label}`}
         subtitle={`Veja outras opções de ${label} parecidas com '${property.title}'`}
       />
     </MaxWidthWrapper>

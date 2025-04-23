@@ -54,3 +54,18 @@ export const PROPERTY_STATUS = [
         value: 'locacao' as const,
     }
 ]
+
+export const PROPERTY_MODALITY = [
+    {
+        label: 'Venda',
+        value: 'venda' as const,
+    },
+    {
+        label: 'Aluguel',
+        value: 'aluguel' as const,
+    },
+    {
+        label: 'Venda ou Aluguel',
+        value: 'venda-ou-aluguel' as const,
+    },
+]

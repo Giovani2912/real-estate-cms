@@ -13,7 +13,6 @@ import {
   SheetTitle,
 } from "./ui/sheet";
 import Link from "next/link";
-import { useState } from "react";
 
 const Sidebar = () => {
   return (

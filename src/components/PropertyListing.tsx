@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react'
 import { Skeleton } from './ui/skeleton'
 import Link from 'next/link'
-import { cn, formatPrice } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { PROPERTY_CATEGORIES, PROPERTY_STATUS } from '@/config'
 import ImageSlider from './ImageSlider'
 import { Imovei } from '@/payload-types'
+import { formatCurrency } from '@/lib/formatCurrency'
 
 interface PropertyListingProps {
   property: Imovei | null
@@ -66,7 +67,7 @@ const PropertyListing = ({
             {labelStatus}
           </p>
           <p className='mt-1 font-medium text-sm text-gray-900'>
-            {formatPrice(property.price)}
+            {formatCurrency(property.price)}
           </p>
         </div>
       </Link>

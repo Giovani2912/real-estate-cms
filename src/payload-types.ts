@@ -23,20 +23,27 @@ export interface Config {
 export interface Imovei {
   id: string;
   title: string;
+  cep: string;
   description?: string | null;
   price: number;
   category:
-    | 'apartments'
-    | 'houses'
-    | 'condominium_houses'
-    | 'terrain'
-    | 'condominium_terrains'
-    | 'farms'
-    | 'condominium_farms';
+    | 'apartamentos'
+    | 'coberturas'
+    | 'duplex'
+    | 'studios'
+    | 'casas'
+    | 'casas-em-condominios'
+    | 'terrenos'
+    | 'terrenos-em-condominios'
+    | 'chacaras'
+    | 'chacaras-em-condominios';
+  status: 'lancamentos' | 'prontos-para-morar' | 'locacao';
   images: {
     image: string | Media;
     id?: string | null;
   }[];
+  bedrooms: number;
+  bathrooms: number;
   updatedAt: string;
   createdAt: string;
 }

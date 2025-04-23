@@ -38,12 +38,12 @@ export const appRouter = router({
                 nextPage,
             } = await payload.find({
                 collection: 'imoveis',
-                // where: {
+                where: {
                 //     approvedForSale: {
                 //         equals: 'approved',
                 //     },
-                //     ...parsedQueryOpts,
-                // },
+                ...parsedQueryOpts,
+                },
                 sort,
                 depth: 1,
                 limit,
@@ -55,6 +55,57 @@ export const appRouter = router({
                 nextPage: hasNextPage ? nextPage : null,
             }
         }),
+
+
+        getFilteredProperties: publicProcedure
+        .input(
+            z.object({
+            neighborhood: z.string().optional(),
+            bathrooms: z.number().optional(),
+            bedrooms: z.number().optional(),
+            suites: z.number().optional(),
+            parkcar: z.number().optional(),
+            value: z.number().optional(),
+            })
+        )
+        .query(async ({ input }) => {
+            const payload = await getPayloadClient();
+
+            const where: any = {};
+
+            if (input.neighborhood) {
+            where.neighborhood = { contains: input.neighborhood };
+            }
+
+            if (input.bathrooms !== undefined) {
+            where.bathrooms = { greater_than_equal: input.bathrooms };
+            }
+
+            if (input.bedrooms !== undefined) {
+            where.bedrooms = { greater_than_equal: input.bedrooms };
+            }
+
+            if (input.suites !== undefined) {
+            where.suites = { greater_than_equal: input.suites };
+            }
+
+            if (input.parkcar !== undefined) {
+            where.parkcar = { greater_than_equal: input.parkcar };
+            }
+
+            if (input.value !== undefined) {
+            where.price = { less_than_equal: input.value };
+            }
+
+            const properties = await payload.find({
+            collection: "imoveis",
+            where,
+            depth: 1,
+            });
+
+            return properties.docs;
+        })
+
 })
 
 export type AppRouter = typeof appRouter

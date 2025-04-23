@@ -54,7 +54,7 @@ const PropertyReel = (props: PropertyReelProps) => {
         {href ? (
           <Link
             href={href}
-            className="hidden text-sm font-medium text-blue-600 hover:text-blue-500 md:block"
+            className="hidden text-sm font-medium text-red-600 hover:text-red-500 md:block"
           >
             Veja mais dessa categoria <span aria-hidden="true">&rarr;</span>
           </Link>
