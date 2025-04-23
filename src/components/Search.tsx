@@ -10,6 +10,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { formatCurrency } from "@/lib/formatCurrency";
+import PropertyReel from "./PropertyReel";
 
 const Searcher = () => {
   const [neighborhood, setNeighborhood] = useState("");
@@ -67,19 +76,20 @@ const Searcher = () => {
       }
     );
 
-  const handleSearchClick = () => {
-    if (neighborhood.length >= 3) {
-      // Não precisa fazer nada aqui, pois já estamos passando os filtros diretamente para a query.
-    }
-  };
+    const handleClearFilters = () => {
+      setFilters({});
+      setAppliedFilters({});
+    };
 
   return (
     <div>
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Buscar seu imóvel</h1>
+
       <div className="flex gap-4 items-center justify-center py-6">
         <div className="flex gap-2 items-center justify-center border-2 border-gray-200 p-1 rounded-md shadow-sm focus-within:border-gray-300 focus-within:ring-1 focus-within:ring-gray-300 w-full">
           <input
             type="text"
-            placeholder="Digite o nome do bairro (mín. 3 letras)"
+            placeholder="Digite o nome de um bairro (mín. 3 letras)"
             value={neighborhood}
             onChange={handleInputChange}
             className="border rounded p-2 w-full border-none outline-none"
@@ -90,7 +100,7 @@ const Searcher = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              className="flex gap-2 items-center justify-center"
+              className="flex gap-2 items-center justify-center py-6"
               disabled={neighborhood.length < 3}
             >
               <FilterIcon size={20} />
@@ -103,7 +113,7 @@ const Searcher = () => {
                 type="number"
                 name="bathrooms"
                 placeholder="Mínimo de Banheiros"
-                value={filters.bathrooms ?? 0 }
+                value={filters.bathrooms ?? "" }
                 onChange={(e) =>
                   setFilters({ ...filters, bathrooms: Number(e.target.value) })
                 }
@@ -139,29 +149,49 @@ const Searcher = () => {
                 }
                 className="border p-2 rounded w-full"
               />
-              <input
-                type="number"
-                name="value"
-                placeholder="Preço máximo"
-                value={filters.value ?? ""}
-                onChange={(e) =>
-                  setFilters({ ...filters, value: Number(e.target.value) })
+              <Select
+                value={filters.value?.toString() ?? ""}
+                onValueChange={(val) =>
+                  setFilters((prev) => ({ ...prev, value: Number(val) }))
                 }
-                className="border p-2 rounded w-full"
-              />
-              <Button
-                onClick={handleApplyFilters}
-                disabled={neighborhood.length < 3}
-                className="w-full col-span-2 md:col-span-3"
               >
-                Filtrar
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Preço máximo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="100000">{formatCurrency(100000)}</SelectItem>
+                  <SelectItem value="300000">{formatCurrency(300000)}</SelectItem>
+                  <SelectItem value="500000">{formatCurrency(500000)}</SelectItem>
+                  <SelectItem value="1000000">{formatCurrency(1000000)}</SelectItem>
+                  <SelectItem value="5000000">{formatCurrency(5000000)}</SelectItem>
+                  <SelectItem value="10000000">{formatCurrency(10000000)}</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                variant="outline"
+                onClick={handleClearFilters}
+                className="w-full"
+              >
+                Limpar Filtros
               </Button>
             </div>
           </PopoverContent>
         </Popover>
+
+        <Select>
+          <SelectTrigger className="w-[200px] py-6">
+            <SelectValue placeholder="Ordenar por" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="desc">Menor valor</SelectItem>
+            <SelectItem value="asc">Maior valor</SelectItem>
+            <SelectItem value="new">Mais novo</SelectItem>
+            <SelectItem value="area">Maior Área</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      {isLoading && <p>Carregando imóveis...</p>}
+      {isLoading && <PropertyReel  query={{ sort: "desc", limit: 8 }} /> }
       {error && <p>Erro ao buscar imóveis: {error.message}</p>}
 
       {properties && properties.length > 0 ? (

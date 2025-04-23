@@ -8,8 +8,8 @@ export const PROPERTY_CATEGORIES = [
         value: 'coberturas' as const,
     },
     {
-        label: 'Duplex',
-        value: 'duplex' as const,
+        label: 'Duplexes',
+        value: 'duplexes' as const,
     },{
         label: 'Studios',
         value: 'studios' as const,
@@ -27,7 +27,7 @@ export const PROPERTY_CATEGORIES = [
         value: 'terrenos' as const,
     },
     {
-        label: 'Terrenos em condomínios',
+        label: 'Terrenos em condomínio',
         value: 'terrenos-em-condominios' as const,
     },
     {
@@ -35,8 +35,28 @@ export const PROPERTY_CATEGORIES = [
         value: 'chacaras' as const,
     },
     {
-        label: 'Chácaras condomínios',
+        label: 'Chácaras condomínio',
         value: 'chacaras-em-condominios' as const,
+    }, 
+    {
+        label: 'Kitnets',
+        value: 'kitnets' as const,
+    }, 
+    {
+        label: 'Salão comercial',
+        value: 'salao-comercial' as const,
+    }, 
+    {
+        label: 'Salas',
+        value: 'salas' as const,
+    }, 
+    {
+        label: 'Galpões',
+        value: 'galpoes' as const,
+    }, 
+    {
+        label: 'Sítios',
+        value: 'sitios' as const,
     }, 
 ]
 

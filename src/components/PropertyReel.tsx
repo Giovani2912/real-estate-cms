@@ -7,7 +7,7 @@ import Link from "next/link";
 import PropertyListing from "./PropertyListing";
 
 interface PropertyReelProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   href?: string;
   query: TQueryValidator;
